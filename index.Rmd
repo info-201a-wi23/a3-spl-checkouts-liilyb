@@ -5,82 +5,62 @@ output: html_document
 
 ### Introduction
 
-An introduction of the data and a description of the trends/books/items you are choosing to analyze (and why!)
+
+For this assignment, I picked the dataset that was organized with every single piece of information that has been checked out at Seattle Libraries 10 times or more. When doing my DPLYR values, I was indecisive on what information I wanted to find out. I started out more broad and just wanted to see what was the most "popular" thing in every category. This included the most checked out book, the most checkouts in a year, and the most checked out material type. Inspired by the contents of A2, I was interested in looking at yearly info to analyze how the data changes from before covid, during covid, and after covid. I wanted to see if the data would match up with my assumptions about the data before sorting it. I was also interested in all the different types of materials you could check out from the libraries as I only checked out physical books at my local public library when I was younger. 
 
 ### Summary Information
 
-Write a summary paragraph of findings that includes the 5 values calculated from your summary information R script
+The first value I was interested in finding was finding the item with the most checkouts. I found out that it was an audiobook called "So You Want to Talk about Race (Unabridged)" in 2020 with 4903 checkouts. I think this was really interested as it connected back with A1 and how the events in 2020 are related to it being the most checked out item.
 
-These will likely be calculated using your DPLYR skills, answering questions such as:
+My second value was what the most checked out subject was. I was able to find out that the most checked out subject/genre was fiction/literature
 
-- What is the average number of checkouts for each item?
-- What is the month or year with the most/least checkouts for a book that you're interested in?
-- What is the month or year with the most/least checkouts for ebooks?
-- How has the number of print book checkouts changed over time?
+My third value was finding how book checkouts and ebook checkouts compared. I ended up using this in my 3rd chart to analyze how COVID and the pandemic might affect the checkouts of these 2 mediums
 
-Feel free to calculate and report values that you find relevant.
+My fourth value was what publisher published the most items. I found out that it was Random House Inc. I googled up the company and found that it publishes basically every genre or any audience of readers which is why it might be very popular. 
+
+My fifth value was what month had the most checkouts. I found out that it was Janurary and something that I thought of while finding out this information was maybe because many people want to start reading as their new years resolutionor they just have time during their holiday break. 
 
 ### The Dataset
 
-- Who collected/published the data?  
-- What are the parameters of the data (dates, number of checkouts, kinds of books, etc.)?
-- How was the data collected or generated?  
-- Why was the data collected?  
-- What, if any, ethical questions do you need to consider when working with this data?  
-- What are possible limitations or problems with this data?   (at least 200 words)
-
+This dataset was created and provided by the Seattle Public Library. This dataset was first created on January 31st, 2023 and is being refreshed monthly to have up to date info about library item checkouts. The parameters for this dataset include the type of usage, checkout type, material type, checkout year, checkout month, number of checkouts, title of material, ISBN, the author, the publisher, the subjects, and publication year. The specific dataset that I used was collected to sort through all checkouts and include any item that was checked out atleast 10 times a month between 2017 to 2023. This data was collected to have a digital archive of all checkouts and be able  to analyze library checkouts in the Seattle Public Library System. This data is also readily avaliable for the public and to the Seattle community. The only question I had while working with this dataset is how the system takes into account of renewals, and if the length of the checkout was varied. One limitation I found working with this dataset was the subject category and how some subjects were too specific and some books did not include a broad enough subject to be able to find easily within the dataset. 
 
 ### First Trends Over Time Chart
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
+``````{r, echo = FALSE, message = FALSE, warning = FALSE, code = readLines("chart1_example.R")}
 
-The first chart that you will create and include will show the trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
+ggplot(data = yearlymaterialtype) +
+  geom_line(mapping = aes(x= checkoutyear, y = added_checkouts, color = MaterialType)) +
+  labs(title = "The Number of Checkouts for Each Material Type Each Year From 2017 to 2023",
+       x = "Checkout Year",
+       y = "The Amount of Checkouts",
+       color = "Material Type")
 
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
-
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, warning = FALSE, code = readLines("chart1_example.R")}
 ```
-
+For my first chart, I analyzed the different type of materials available for checkout and looked at the amount for each year from 2017 to 2023. Since one of the main things I was interested in was looking for changes because of covid, I looked mainly for any changes in year 2020. For this chart, I saw a steep decline for all materials besides audiobooks, which slowly increased throughout the years. This made sense as physical libraries were closed during covid so people resorted to checking out materials digitally, and many people started listening to audiobooks during the pandemic. 
 ### Second Trends Over Time Chart
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
 
-The second chart that you will create and include will show another trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
+``````{r, echo = FALSE, message = FALSE, code = readLines("chart2_example.R")}
 
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
-
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+ggplot(data = checkoutsubjects) +
+  geom_line(mapping = aes(x= CheckoutYear, y = subjectsperyear, color = Subjects)) +
+  labs(title = "The Number of Checkouts for Fiction vs. Nonfiction Materials at Seattle Libraries from 2017 to 2023",
+       x = "Checkout Year",
+       y = "The Amount of Checkouts",
+       color = "Material Type")
 ```
-
+For my second chart, I looked at the differences in checkouts for fiction and nonfiction books. One error while sorting this data that I found was that not every book was tagged as either fiction or nonfiction or the amount of books in this graph are relatively low. However, using what I had, I was able to see that nonfiction books had an increase after covid while fiction books slowly decreased which I found surprising. 
 ### Your Choice
 
-The last chart is up to you. It could be a line plot, scatter plot, histogram, bar plot, stacked bar plot, and more. Here are some requirements to help guide your design:
 
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear legend title
 
-Here's an example of how to run an R script inside an RMarkdown file:
+``````{r, echo = FALSE, message = FALSE, code = readLines("chart3.R")}
 
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+ggplot(data = booksvsebooks) +
+  geom_col(aes(x = CheckoutYear,
+               y = TotalCheckouts,
+               fill = MaterialType),
+              position = "dodge")
 ```
 
-
+For my own choice chart, I wanted to do a grouped barplot for the checkouts of books and ebooks. I felt like this would be an easy way to visually see the amount differences between the two types of materials. Like I expected, physical book checkouts greatly declined in 2020 and have slowly been increasing even now in 2023 as covid restrictions slowly are lifted. Ebooks have been increasing throughout the years which is not suprising as many people could not go to their library building and check out a physical book during the pandemic.
